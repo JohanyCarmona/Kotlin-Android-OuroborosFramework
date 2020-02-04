@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Ouroboros</string>
+    <string name="input_email">Enter your email</string>
+    <string name="input_password">Enter your password</string>
+    <string name="button_login">Start</string>
+    <string name="text_registry">Sign In</string>
+    <string name="input_name">Enter your name</string>
+    <string name="input_phone">Enter your phone number</string>
+    <string name="tv_result">Result</string>
+    <string name="tv_empty"></string>
+    <string name="text_registry_result">Result</string>
+    <string name="button_registry">Create</string>
+    <string name="input_repassword">Enter your password again</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gym">Gym</string>
+    <string name="swimming">Swimming</string>
+    <string name="running">Running</string>
+    <string name="travel">Travel</string>
+    <string name="msg_error_empty_box">You have to fill all inputs</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="gender">Gender</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="birthdate">Birth Date</string>
+    <string name="city">City</string>
+    <string name="msg_error_match_password">Both password must be same</string>
+    <string name="msg_error_session_user">The user doesn\'t exist</string>
+    <string name="msg_error_session_password">The password doesn\'t correct</string>
+    <string name="abrir_otra_interfaz">Abrir otra interfaz</string>
+    <string name="msg_error_match_length_password">The password cannot be less than six digits</string>
+    <string name="msg_error_user_exist">The user already exists</string>
+    <string name="msg_user_created">User successfully created</string>
+    <string name="logout">Logout</string>
+
+    <string-array name="city_list">
+        <item>Bogotá</item>
+        <item>Cali</item>
+        <item>Medellín</item>
+        <item>Barranquilla</item>
+        <item>Pereira</item>
+    </string-array>
+
+</resources>
