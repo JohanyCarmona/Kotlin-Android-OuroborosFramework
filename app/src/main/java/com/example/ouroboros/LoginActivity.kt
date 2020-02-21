@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.*
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_PASSWORD_CODE
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_USER_CODE
+import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_BACK
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_INIT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_NOT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_toREGISTRY
@@ -41,7 +42,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //To disable de 'BackButtom' you must have comment this line.
-        //super.onBackPressed()
+        val intent = Intent()
+        setResult(LOGIN_CODE_BACK, intent)
+        super.onBackPressed()
     }
 
     override fun onStart() {

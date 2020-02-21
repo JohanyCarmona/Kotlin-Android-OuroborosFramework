@@ -1,5 +1,6 @@
 package com.example.ouroboros
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ouroboros.ouroboros.DataBase
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_EXIST_USER_CODE
+import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_LOGGED_USER_CODE
 import com.example.ouroboros.utils.ActivityCodes.Companion.INIT_CODE
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE
+import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_BACK
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_INIT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_NOT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_OK
@@ -43,6 +46,17 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("Main", "onResume")
+        //(1)Preferences Read
+        val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val defaultValue = DONT_LOGGED_USER_CODE
+        val saveID = sharedPref.getInt("saveID", defaultValue)
+        Log.d("saveID: Read", saveID.toString())
+        if (saveID >= 0){
+            codeRequest = LOGIN_CODE
+            codeResult = LOGIN_CODE_OK
+            ManagerSessions.session(saveID)
+        }
+        //Preferences Read End
         when (codeResult){
             INIT_CODE -> {
                 goToActivity(LOGIN_CODE)
@@ -63,8 +77,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        super.onPause()
         Log.d("Main", "onPause")
+        //(2)Preferences Write
+        var saveID : Int = ManagerSessions.session.ID
+        if (saveID < 0){
+
+            saveID = DONT_LOGGED_USER_CODE
+        }
+        val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putInt("saveID", saveID)
+            commit()
+        }
+        Log.d("saveID: Write", saveID.toString())
+        //Preferences Write End
+        super.onPause()
     }
 
     override fun onStop() {
@@ -152,6 +179,9 @@ class MainActivity : AppCompatActivity() {
                             codeResult = LOGIN_CODE_NOT
                         }
                     }
+                    LOGIN_CODE_BACK -> {
+                        finish()
+                    }
                 }
             }
             REGISTRY_CODE -> {
@@ -184,7 +214,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //To disable de 'BackButtom' you must have comment this line.
-        //super.onBackPressed()
+        super.onBackPressed()
     }
 
 

@@ -22,9 +22,10 @@ class DataBase {
         class SessionCodes {
             companion object {
                 //The values always must be lower than < 0
-                const val DONT_EXIST_USER_CODE = -1
-                const val INVALID_USER_CODE = -11
-                const val INVALID_PASSWORD_CODE = -111
+                const val DONT_LOGGED_USER_CODE = -1
+                const val DONT_EXIST_USER_CODE = -11
+                const val INVALID_USER_CODE = -111
+                const val INVALID_PASSWORD_CODE = -1111
             }
         }
     }
@@ -33,20 +34,24 @@ class DataBase {
             //(!)This values must be encrypted and sorted.
             val USERS: List<String> = listOf(
                 "Ouroboros",
+                "as",
                 "admin"
             )
 
             val PASSWORDS: List<String> = listOf(
                 "info",
+                "as",
                 "admin"
             )//(!)
 
             val NAMES: List<String> = listOf(
                 "Ouroboros",
+                "as",
                 "Admin"
             )
             val CITIES: List<String> = listOf(
                 "Medellín",
+                "Pereira",
                 "Medellín"
             )
         }
@@ -137,6 +142,14 @@ class DataBase {
                     password: String) {
             val ID : Int = this.check(user, password)
             if (ID != INVALID_USER_CODE && ID != INVALID_PASSWORD_CODE){
+                this.session = Session(ID,this.users[ID],this.names[ID],this.cities[ID])
+            }else{
+                this.session = Session(ID)
+            }
+        }
+
+        fun session(ID : Int) {
+            if (ID != INVALID_USER_CODE && ID != INVALID_PASSWORD_CODE && ID >= 0){
                 this.session = Session(ID,this.users[ID],this.names[ID],this.cities[ID])
             }else{
                 this.session = Session(ID)

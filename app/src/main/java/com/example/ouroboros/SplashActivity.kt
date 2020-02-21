@@ -1,9 +1,15 @@
 package com.example.ouroboros
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
+import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_LOGGED_USER_CODE
+import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE
+import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_OK
+import java.lang.Integer.getInteger
 import java.util.*
 import kotlin.concurrent.timerTask
 
