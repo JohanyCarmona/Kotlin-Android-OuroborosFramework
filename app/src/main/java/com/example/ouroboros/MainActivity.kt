@@ -3,11 +3,16 @@ package com.example.ouroboros
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.ouroboros.ouroboros.DataBase
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_EXIST_USER_CODE
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_LOGGED_USER_CODE
@@ -36,6 +41,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d("Main", "onCreate")
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_account, R.id.navigation_topics, R.id.navigation_my_topics
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     override fun onStart() {

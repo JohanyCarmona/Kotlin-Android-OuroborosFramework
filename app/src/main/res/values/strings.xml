@@ -1,6 +1,4 @@
 <resources>
-    <!--<string name="saved_id_key">1</string>
-    <string name="saved_id_default_key">-1</string>-->
     <string name="app_name">Ouroboros</string>
     <string name="input_email">Enter your email</string>
     <string name="input_password">Enter your password</string>
@@ -36,6 +34,10 @@
     <string name="msg_error_user_exist">The user already exists</string>
     <string name="msg_user_created">User successfully created</string>
     <string name="logout">Logout</string>
+
+    <string name="title_account">Account</string>
+    <string name="title_topics">Topics</string>
+    <string name="title_my_topics">My Topics</string>
 
     <string-array name="city_list">
         <item>Bogotá</item>
