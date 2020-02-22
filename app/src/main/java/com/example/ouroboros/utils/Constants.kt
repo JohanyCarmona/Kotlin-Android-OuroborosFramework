@@ -10,6 +10,12 @@ class ExpressionConstants{
     }
 }
 
+class RegistryCodes{
+    companion object{
+        const val MAX_LENGTH_PASSWORD = 6
+    }
+}
+
 class ActivityCodes{
     companion object {
         const val INIT_CODE = 0

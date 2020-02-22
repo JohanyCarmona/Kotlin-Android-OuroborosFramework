@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("Main", "onResume")
-        //(1)Preferences Read
+        //(0)Preferences Read
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
         val defaultValue = DONT_LOGGED_USER_CODE
         val saveID = sharedPref.getInt("saveID", defaultValue)
@@ -95,7 +96,6 @@ class MainActivity : AppCompatActivity() {
         //(2)Preferences Write
         var saveID : Int = ManagerSessions.session.ID
         if (saveID < 0){
-
             saveID = DONT_LOGGED_USER_CODE
         }
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
@@ -105,6 +105,11 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("saveID: Write", saveID.toString())
         //Preferences Write End
+
+        //(!)Temporal Bug until Room DataBase have been created.
+        // If you create a new user, then you press BackButton the new user ID will be save.
+        // When you come back start the app, it will launch exception because the user with new ID doesn't exist and
+        // the app hasn't a Room DataBase.
         super.onPause()
     }
 
@@ -203,10 +208,8 @@ class MainActivity : AppCompatActivity() {
                     REGISTRY_CODE_toMAIN_ASK -> {
                         val user : String = data?.extras?.getString("user").toString()
                         val password : String = data?.extras?.getString("password").toString()
-                        val name : String = data?.extras?.getString("name").toString()
-                        val city : String = data?.extras?.getString("city").toString()
                         if (ManagerSessions.search(user) == DONT_EXIST_USER_CODE){
-                            ManagerSessions.write(user, password, name, city)
+                            ManagerSessions.write(user, password)
                             ManagerSessions.session(user, password)
                             codeResult = LOGIN_CODE_OK
                             Toast.makeText(this, getString(R.string.msg_user_created), Toast.LENGTH_SHORT).show()
@@ -227,7 +230,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //To disable de 'BackButtom' you must have comment this line.
         super.onBackPressed()
     }
 

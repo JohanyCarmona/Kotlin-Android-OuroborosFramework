@@ -9,7 +9,6 @@ import android.widget.*
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_PASSWORD_CODE
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_USER_CODE
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_BACK
-import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_INIT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_NOT
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_toREGISTRY
 import com.example.ouroboros.utils.ActivityCodes.Companion.LOGIN_CODE_toMAIN_ASK
@@ -30,10 +29,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         bt_login?.setOnClickListener {
-            val et_email: String = findViewById<EditText>(R.id.input_email).text.toString()
+            val et_user: String = findViewById<EditText>(R.id.input_user).text.toString()
             val et_password: String = findViewById<EditText>(R.id.input_password).text.toString()
             val intent = Intent()
-            intent.putExtra("user", et_email)
+            intent.putExtra("user", et_user)
             intent.putExtra("password", et_password)
             setResult(LOGIN_CODE_toMAIN_ASK, intent)
             finish()

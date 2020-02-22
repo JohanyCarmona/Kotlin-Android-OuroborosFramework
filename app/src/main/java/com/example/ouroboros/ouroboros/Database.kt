@@ -3,8 +3,6 @@ package com.example.ouroboros.ouroboros
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.DONT_EXIST_USER_CODE
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_PASSWORD_CODE
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.SessionCodes.Companion.INVALID_USER_CODE
-import com.example.ouroboros.ouroboros.DataBase.DataBase.Companion.CITIES
-import com.example.ouroboros.ouroboros.DataBase.DataBase.Companion.NAMES
 import com.example.ouroboros.ouroboros.DataBase.DataBase.Companion.PASSWORDS
 import com.example.ouroboros.ouroboros.DataBase.DataBase.Companion.USERS
 import com.example.ouroboros.ouroboros.DataBase.CodesDataBase.ExpressionConstants.Companion.EMPTY as EMPTY
@@ -31,7 +29,7 @@ class DataBase {
     }
     class DataBase {
         companion object {
-            //(!)This values must be encrypted and sorted.
+            //(!)This values must be encrypted and sorted to can execute binary search.
             val USERS: List<String> = listOf(
                 "Ouroboros",
                 "as",
@@ -43,30 +41,15 @@ class DataBase {
                 "as",
                 "admin"
             )//(!)
-
-            val NAMES: List<String> = listOf(
-                "Ouroboros",
-                "as",
-                "Admin"
-            )
-            val CITIES: List<String> = listOf(
-                "Medellín",
-                "Pereira",
-                "Medellín"
-            )
         }
     }
 
     class Session{
         val ID : Int
         val user : String
-        val name : String
-        val city : String
         constructor(){
             this.ID = DONT_EXIST_USER_CODE
             this.user = EMPTY
-            this.name = EMPTY
-            this.city = EMPTY
         }
         constructor(ID : Int){
             if (ID < 0){
@@ -75,42 +58,30 @@ class DataBase {
                 this.ID = DONT_EXIST_USER_CODE
             }
             this.user = EMPTY
-            this.name = EMPTY
-            this.city = EMPTY
         }
-        constructor(ID : Int, user: String, name : String, city : String) {
+        constructor(ID : Int, user: String) {
             this.ID = ID
             this.user = user
-            this.name = name
-            this.city = city
         }
     }
 
     class SessionsManager(users : List<String> = USERS,
-                          passwords : List<String> = PASSWORDS,
-                          names : List<String> = NAMES,
-                          cities : List<String> = CITIES){
+                          passwords : List<String> = PASSWORDS){
         var users : List<String>
         var passwords : List<String>
-        var names : List<String>
-        var cities : List<String>
         var session : Session
 
         init {
             this.users = users
             this.passwords = passwords
-            this.names = names
-            this.cities = cities
             this.session = Session()
         }
 
         fun write (user : String,
-                   password : String, name: String, city: String) {
+                   password : String) {
             this.users = this.users + user
             this.passwords = this.passwords + password
-            this.names = this.names + name
-            this.cities = this.cities + city
-            this.session = Session(this.users.size,user, name, city)
+            this.session = Session(this.users.size,user)
         }
 
         fun search(user : String): Int {
@@ -142,7 +113,7 @@ class DataBase {
                     password: String) {
             val ID : Int = this.check(user, password)
             if (ID != INVALID_USER_CODE && ID != INVALID_PASSWORD_CODE){
-                this.session = Session(ID,this.users[ID],this.names[ID],this.cities[ID])
+                this.session = Session(ID,this.users[ID])
             }else{
                 this.session = Session(ID)
             }
@@ -150,7 +121,7 @@ class DataBase {
 
         fun session(ID : Int) {
             if (ID != INVALID_USER_CODE && ID != INVALID_PASSWORD_CODE && ID >= 0){
-                this.session = Session(ID,this.users[ID],this.names[ID],this.cities[ID])
+                this.session = Session(ID,this.users[ID])
             }else{
                 this.session = Session(ID)
             }

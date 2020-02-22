@@ -20,119 +20,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/input_name"
-            android:hint="@string/input_name"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/input_email"
-            android:hint="@string/input_email"
-            android:inputType="textEmailAddress" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/input_phone"
-            android:hint="@string/input_phone"
-            android:inputType="number"/>
+            android:id="@+id/input_user"
+            android:hint="@string/input_user"
+            android:inputType="text"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input_password"
             android:inputType="textPassword"
             android:hint="@string/input_password"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input_repassword"
             android:inputType="textPassword"
             android:hint="@string/input_repassword"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gender"/>
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/male"
-                android:id="@+id/rb_male"
-                android:checked="true"/>
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/female"
-                android:id="@+id/rb_female"/>
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hobbies"/>
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/travel"
-                    android:id="@+id/cb_travel"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/gym"
-                    android:id="@+id/cb_gym"/>
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/swimming"
-                    android:id="@+id/cb_swimming"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/running"
-                    android:id="@+id/cb_running"/>
-            </TableRow>
-        </TableLayout>
-
-        <EditText
-            android:id="@+id/etBirthDate"
-            android:text="@string/birthdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:focusable="false"
-            android:clickable="true"
-            android:maxLines="1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/city" />
-
-        <Spinner
-            android:id="@+id/spCity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/city_list" />
 
         <Button
             android:id="@+id/btRegistry"
@@ -141,13 +45,6 @@
             android:layout_margin="8dp"
             android:background="@color/colorButton"
             android:text="@string/button_registry"/>
-
-        <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/tv_empty"/>
 
     </LinearLayout>
 </ScrollView>

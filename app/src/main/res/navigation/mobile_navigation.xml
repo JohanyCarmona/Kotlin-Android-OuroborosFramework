@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_topics">
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.example.ouroboros.ui.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/navigation_topics"
+        android:name="com.example.ouroboros.ui.TopicsFragment"
+        android:label="@string/title_topics"
+        tools:layout="@layout/fragment_topics" />
+    <fragment
+        android:id="@+id/navigation_my_topics"
+        android:name="com.example.ouroboros.ui.MyTopicsFragment"
+        android:label="@string/title_my_topics"
+        tools:layout="@layout/fragment_my_topics" />
+</navigation>
