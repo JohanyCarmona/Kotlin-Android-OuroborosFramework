@@ -5,4 +5,11 @@
     <color name="colorAccent">#009688</color>
     <color name="colorActionBarTitle">#009688</color>
     <color name="colorButton">#009688</color>
+
+    <color name="colorTopicTitle">#009688</color>
+    <color name="colorTopicDescription">#009688</color>
+    <color name="colorTopicBackground">#00FFFFFF</color>
+    <color name="colorTopicResourceBackground">#009688</color>
+    <color name="colorTopicCard">#FFFFFFFF</color>
+    <color name="colorTopicFrameLayout">#00FFFFFF</color>
 </resources>
