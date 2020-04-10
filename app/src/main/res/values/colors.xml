@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#2C2C2C</color>
     <color name="colorAccent">#009688</color>
     <color name="colorActionBarTitle">#009688</color>
-    <color name="colorButton">#009688</color>
+    <color name="colorButton">#00BCD4</color>
 
     <color name="colorTopicTitle">#009688</color>
     <color name="colorTopicDescription">#009688</color>
@@ -12,4 +12,12 @@
     <color name="colorTopicResourceBackground">#009688</color>
     <color name="colorTopicCard">#FFFFFFFF</color>
     <color name="colorTopicFrameLayout">#00FFFFFF</color>
+
+
+    <color name="colorHelperRoleType">#ff669900</color>
+    <color name="colorApplicantRoleType">#ffcc0000</color>
+
+
+    <color name="colorNeutralOuroboros">#33999999</color>
+
 </resources>

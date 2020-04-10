@@ -8,10 +8,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".RegistryActivity">
+        tools:context=".activities.session.RegistryActivity">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_registry"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
@@ -20,26 +20,33 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/input_user"
-            android:hint="@string/input_user"
+            android:id="@+id/et_registry_email"
+            android:hint="@string/input_email"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_registry_username"
+            android:hint="@string/input_username"
             android:inputType="text"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/input_password"
+            android:id="@+id/et_registry_password"
             android:inputType="textPassword"
             android:hint="@string/input_password"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/input_repassword"
+            android:id="@+id/et_registry_repassword"
             android:inputType="textPassword"
             android:hint="@string/input_repassword"/>
 
         <Button
-            android:id="@+id/btRegistry"
+            android:id="@+id/bt_registry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

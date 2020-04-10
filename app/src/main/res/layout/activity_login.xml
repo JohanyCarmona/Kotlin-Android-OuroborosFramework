@@ -12,26 +12,26 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        tools:context=".LoginActivity">
+        tools:context=".activities.session.LoginActivity">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_login"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/iconapp" />
 
         <EditText
-            android:id="@+id/input_user"
+            android:id="@+id/et_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:ems="10"
-            android:hint="@string/input_user"
+            android:hint="@string/input_email"
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/input_password"
+            android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -40,20 +40,20 @@
             android:inputType="textPassword"/>
 
         <Button
-            android:id="@+id/button_login"
+            android:id="@+id/bt_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#00BCD4"
-            android:text="@string/button_login"
+            android:background="@color/colorButton"
+            android:text="@string/bt_login"
             android:textAllCaps="true" />
 
         <TextView
-            android:id="@+id/text_registry"
+            android:id="@+id/tv_registry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="@string/text_registry"
+            android:text="@string/tv_registry"
             android:textAlignment="center"
             android:textColor="#00BCD4"
             android:textStyle="bold" />

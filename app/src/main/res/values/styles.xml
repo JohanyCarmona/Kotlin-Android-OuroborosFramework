@@ -1,21 +1,14 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--<style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="titleTextStyle">@style/ActionBarTitleTextStyle</item>
-        <item name="background">@color/colorPrimary</item>
-    </style>
-
-    <style name="ActionBarTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/colorActionBarTitle</item>
-    </style>-->
 </resources>

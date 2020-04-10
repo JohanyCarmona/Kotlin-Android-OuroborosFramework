@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".AddTopicActivity">
+        tools:context=".activities.my_topics.AddTopicActivity">
 
         <TextView
             android:id="@+id/tv_role_type_topic"
@@ -68,7 +68,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sp_resource_category"
             app:srcCompat="@drawable/iconapp"
-            android:contentDescription="@string/todo"
+            android:contentDescription="@string/cd_iv_add_topic_resource"
             android:focusable="true" />
 
         <EditText
@@ -79,7 +79,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:gravity="center_horizontal|center_vertical"
-            android:hint="@string/et_title"
+            android:hint="@string/et_real_resource_title"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,8 +119,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:gravity="center_horizontal|center_vertical"
-            android:hint="@string/et_description"
-            android:inputType="text"
+            android:hint="@string/et_resource_description"
+            android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_title"
@@ -133,41 +133,56 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/tv_resource_location"
+            android:text="@string/tv_real_resource_location"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_description" />
 
+        <ImageView
+            android:id="@+id/iv_buttom_get_resource_location"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/cd_iv_buttom_get_resource_location"
+            android:focusable="true"
+            app:layout_constraintEnd_toStartOf="@+id/et_resource_location_longitude"
+            app:layout_constraintStart_toEndOf="@+id/et_resource_location_latitude"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource"
+            app:srcCompat="@mipmap/ic_add_location" />
+
         <EditText
             android:id="@+id/et_resource_location_latitude"
-            android:layout_width="150dp"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
+            android:autofillHints=""
             android:gravity="center_horizontal|center_vertical"
             android:hint="@string/et_resource_location_latitude"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource" />
 
         <EditText
             android:id="@+id/et_resource_location_longitude"
-            android:layout_width="150dp"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
+            android:autofillHints=""
             android:gravity="center_horizontal|center_vertical"
             android:hint="@string/et_resource_location_longitude"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource" />
 
 
         <Button
-            android:id="@+id/btRegistry"
+            android:id="@+id/bt_add_topic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -179,7 +194,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_resource_location_latitude" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_buttom_get_resource_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
