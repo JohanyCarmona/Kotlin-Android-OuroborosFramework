@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("Main", "onCreate")
         auth = FirebaseAuth.getInstance()
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -48,23 +47,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("Main", "onStart")
         // Check if user is signed in (non-null) and update UI accordingly.
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
-            // Name, email address, and profile photo Url
-            val name = user.displayName
-            Log.d("Main:name", name.toString())
-            val email = user.email
-            Log.d("Main:email", email.toString())
-            val photoUrl = user.photoUrl
-            Log.d("Main:photoUrl", photoUrl.toString())
-            // Check if user's email is verified
-            //val emailVerified = user.isEmailVerified
-            val uid = user.uid
-            Log.d("TopicDetailMain:uid", uid.toString())
             codeRequest = MAIN_CODE
             codeResult = INIT_CODE
+            /*// Name, email address, and profile photo Url
+            val name = user.displayName
+            val email = user.email
+            val photoUrl = user.photoUrl
+            val uid = user.uid*/
         }
     }
 
@@ -92,26 +84,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onPause() {
-        Log.d("Main", "onPause")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("Main", "onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("Main", "onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("Main", "onDestroy")
     }
 
     private fun goToActivity(request : Int){
@@ -148,5 +120,4 @@ class MainActivity : AppCompatActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
 }

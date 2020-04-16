@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ouroboros">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".model.room.SesionRoom"
         android:allowBackup="true"
@@ -10,21 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activities.maps.MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".activities.MainActivity"></activity>
-    <activity android:name=".activities.session.LoginActivity"></activity>
-    <activity android:name=".activities.session.RegistryActivity"></activity>
-    <activity android:name=".activities.my_topics.AddTopicActivity"></activity>
-    <activity android:name=".activities.my_topics.MyTopicDetailActivity"></activity>
-    <activity android:name=".activities.topics.TopicDetailActivity"></activity>
-    <activity android:name=".activities.my_topics.EditTopicActivity"></activity>
-    <activity android:name=".activities.account.UpdatePasswordDialog"
-        android:theme="@android:style/Theme.Holo.Dialog">
-    </activity>
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.session.LoginActivity" />
+        <activity android:name=".activities.session.RegistryActivity" />
+        <activity android:name=".activities.my_topics.AddTopicActivity" />
+        <activity android:name=".activities.my_topics.MyTopicDetailActivity" />
+        <activity android:name=".activities.topics.TopicDetailActivity" />
+        <activity android:name=".activities.my_topics.EditTopicActivity" />
+        <activity
+            android:name=".activities.account.UpdatePasswordDialog"
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
     </application>
+
 </manifest>

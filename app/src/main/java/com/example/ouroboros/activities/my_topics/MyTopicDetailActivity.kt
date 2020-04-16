@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
+import com.example.ouroboros.activities.maps.MapsActivity
 import com.example.ouroboros.R
+import com.example.ouroboros.activities.maps.MapConstants.MapCodes.Companion.SHOW_LOCATION_MAP
+import com.example.ouroboros.intent.LocationSerializable
 import com.example.ouroboros.intent.TopicSerializable
 import com.example.ouroboros.model.*
 import com.example.ouroboros.model.room.SesionRoom
@@ -18,6 +21,10 @@ import com.example.ouroboros.model.room.topics.TopicRoom
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.NEGATIVE_COLOR
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.NEUTRAL_COLOR
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.POSITIVE_COLOR
+import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.LOCATION_SERIALIZABLE_CODE
+import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.MAP_REQUEST_CODE
+import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.ROLE_TYPE_REQUEST_CODE
+import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.TOPIC_SERIALIZABLE_CODE
 import com.example.ouroboros.model.TableCodes.PublicationTypeStrings.Companion.PUBLICATION_STRING
 import com.example.ouroboros.model.TableCodes.ResourceCategoryStrings.Companion.CATEGORY_STRING
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.APPLICANT
@@ -25,7 +32,6 @@ import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.HELPER
 import com.example.ouroboros.model.TableCodes.RoleTypeStrings.Companion.ROLE_STRING
 import com.example.ouroboros.model.TableCodes.RoomCodes.Companion.ROOM_ALPHA
 import com.example.ouroboros.model.TableCodes.TableCodes.Companion.TOPIC_TABLE_CODE
-import com.example.ouroboros.model.TableCodes.TableCodes.Companion.TOPIC_SERIALIZABLE_CODE
 import com.example.ouroboros.model.TableCodes.TableCodes.Companion.USER_TABLE_CODE
 import com.example.ouroboros.model.firebase.topics.Topic
 import com.example.ouroboros.model.firebase.topics.TopicsTable
@@ -33,6 +39,7 @@ import com.example.ouroboros.model.firebase.users.User
 import com.example.ouroboros.utils.Constants.ActivityCodes.Companion.EDIT_TOPIC_CODE
 import com.example.ouroboros.utils.LocalTime
 import com.example.ouroboros.utils.Validator
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -68,7 +75,6 @@ class MyTopicDetailActivity : AppCompatActivity() {
         }
 
         iv_bt_edit?.setOnClickListener{
-
                 if (!topic.enable){
                     goToActivity(EDIT_TOPIC_CODE)
                 }else{
@@ -123,11 +129,25 @@ class MyTopicDetailActivity : AppCompatActivity() {
             alertDialog?.show()
         }
 
+        iv_bt_show_location?.setOnClickListener {
+            showLocation(topic.latitude,topic.longitude)
+        }
+
         iv_role_type?.setOnClickListener {
 
         }
     }
 
+    private fun showLocation(latitude : Double, longitude : Double){
+        val intent = Intent(this, MapsActivity::class.java)
+
+        intent.putExtra(ROLE_TYPE_REQUEST_CODE, topic.role_type)
+        intent.putExtra(MAP_REQUEST_CODE, SHOW_LOCATION_MAP)
+        val resourceLocation : LatLng = LatLng(latitude, longitude)
+        val resourceLocationSerializable = LocationSerializable(resourceLocation)
+        intent.putExtra(LOCATION_SERIALIZABLE_CODE, resourceLocationSerializable).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        this.startActivity(intent)
+    }
 
     private fun setMyTopicDetailTransparency(alpha : Float = ROOM_ALPHA){
         iv_ouroboros_publisher.alpha = alpha
@@ -142,6 +162,7 @@ class MyTopicDetailActivity : AppCompatActivity() {
         tv_resource_location_latitude.alpha = alpha
         tv_resource_location_longitude.alpha = alpha
         tv_publication_date_result.alpha = alpha
+        iv_bt_show_location.alpha = alpha
     }
 
     private fun showMyTopic(topic : Topic){
@@ -164,16 +185,15 @@ class MyTopicDetailActivity : AppCompatActivity() {
         }
 
         tv_publication_type_result.text = PUBLICATION_STRING[topic.publication_type]
-
         tv_title_result.text = topic.title
-
         tv_description_result.text = topic.description
-
-        tv_resource_location_latitude.text = topic.latitude.toString()
-        tv_resource_location_longitude.text = topic.longitude.toString()
+        tv_resource_location_latitude.text = topic.latitude.round(6)
+        tv_resource_location_longitude.text = topic.longitude.round(6)
         val localTime : LocalTime = LocalTime()
-        tv_publication_date_result.hint = localTime.convertLongUTCToTime(topic.publication_date)
+        tv_publication_date_result.hint = localTime.convertUTCTimeToDefaultDate(topic.publication_date)//.convertLongUTCToTime(topic.publication_date)
     }
+
+    private fun Double.round(decimals: Int = 2): String = "%.${decimals}f".format(this)
 
     override fun onResume() {
         super.onResume()
@@ -186,30 +206,6 @@ class MyTopicDetailActivity : AppCompatActivity() {
                 showMyTopic(topic)
                 setMyTopicDetailTransparency()
             }
-        }
-    }
-
-
-    private fun uploadMyRoomTopics(){
-        val topicRoomDAO = SesionRoom.database.TopicRoomDAO()
-        allMyRoomTopics = topicRoomDAO.getTopics()
-        for (MyRoomTopic in allMyRoomTopics){
-            val topicsTable : TopicsTable =
-                TopicsTable()
-            topicsTable.create(
-                idUser = MyRoomTopic.idUser,
-                role_type = MyRoomTopic.role_type,
-                publication_type = MyRoomTopic.publication_type,
-                title = MyRoomTopic.title,
-                resource_category = MyRoomTopic.resource_category,
-                image = MyRoomTopic.image,
-                description = MyRoomTopic.description,
-                publication_date = MyRoomTopic.publication_date,
-                latitude = MyRoomTopic.latitude,
-                longitude = MyRoomTopic.longitude,
-                enable = true
-            )
-            topicRoomDAO.deleteTopic(MyRoomTopic)
         }
     }
 
@@ -306,8 +302,7 @@ class MyTopicDetailActivity : AppCompatActivity() {
         when(request){
             EDIT_TOPIC_CODE -> {
                 val intent = Intent(this, EditTopicActivity::class.java)
-                val topic_serializable =
-                    TopicSerializable(topic)
+                val topic_serializable = TopicSerializable(topic)
                 intent.putExtra(TOPIC_SERIALIZABLE_CODE, topic_serializable).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 this.startActivity(intent)
             }

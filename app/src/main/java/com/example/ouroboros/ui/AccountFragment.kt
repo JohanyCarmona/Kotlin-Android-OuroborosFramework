@@ -211,7 +211,6 @@ class AccountFragment : Fragment() {
                         val stNewPassword : String = viewDialogUpdatePassword.et_new_password.text.toString()
                         val stNewRePassword : String = viewDialogUpdatePassword.et_new_repassword.text.toString()
 
-                        var isUpdateChecked : Boolean = false
                         if (stOldPassword.isEmpty() || stNewPassword.isEmpty() || stNewRePassword.isEmpty()){
                             Toast.makeText(activity!!, getString(R.string.msg_error_empty_box), Toast.LENGTH_SHORT).show()
                         } else {
@@ -230,7 +229,6 @@ class AccountFragment : Fragment() {
                                             Toast.makeText(activity!!, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
                                         }else{
                                             val stEmail : String = myFirebaseUser.email.toString()
-                                            Log.d("AF:stEmail",stEmail)
                                             checkUpdatePassword(stEmail, stOldPassword, stNewPassword)
                                         }
                                     }
@@ -302,7 +300,6 @@ class AccountFragment : Fragment() {
             username = newUsername,
             ouroboros = myUser.ouroboros
         )
-        Log.d("AF:updateUsername", "User Username updated.")
         Toast.makeText(activity!!, getString(R.string.msg_username_update_succesfully), Toast.LENGTH_SHORT).show()
     }
 
@@ -332,7 +329,6 @@ class AccountFragment : Fragment() {
                                 val myIdUser : String = myFirebaseUser.uid
                                 loadUser(myIdUser)
                                 val stUsername : String = myUser.username
-                                Log.d("AF:stUsername:",stUsername)
                                 if(stUsername == stNewUsername){
                                     Toast.makeText(activity!!, getString(R.string.msg_error_changed_username), Toast.LENGTH_SHORT).show()
                                 }else{
@@ -369,9 +365,9 @@ class AccountFragment : Fragment() {
         //Adapt a function that obtain data in date format.
         val localTime : LocalTime = LocalTime()
         val creationTimestamp : Long = myFirebaseUser.metadata!!.creationTimestamp
-        root.tv_fragment_account_registration_date_result.hint = localTime.convertLongUTCToTime(creationTimestamp)
+        root.tv_fragment_account_registration_date_result.hint = localTime.convertDefaultTimeToDefaultDate(creationTimestamp)
         val lastSignInTimestamp : Long = myFirebaseUser.metadata!!.lastSignInTimestamp
-        root.tv_fragment_account_last_sign_in_date_result.hint = localTime.convertLongUTCToTime(lastSignInTimestamp)
+        root.tv_fragment_account_last_sign_in_date_result.hint = localTime.convertDefaultTimeToDefaultDate(lastSignInTimestamp)
     }
 
     override fun onResume() {
@@ -410,10 +406,8 @@ class AccountFragment : Fragment() {
         user!!.updatePassword(newPassword)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("AF:updatePassword", "User password updated.")
                     Toast.makeText(activity!!, getString(R.string.msg_password_update_succesfully), Toast.LENGTH_SHORT).show()
                 }else{
-                    Log.d("AF:updatePassword", "User password didn't was updated.")
                     Toast.makeText(activity!!, getString(R.string.msg_password_update_error), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -427,10 +421,8 @@ class AccountFragment : Fragment() {
         user!!.reauthenticate(credential)
             .addOnCompleteListener {task ->
                 if (task.isSuccessful) {
-                    Log.d("AF:yesAuthenticated","startupdatePassword")
                     updatePassword(newPassword)
                 }else{
-                    Log.d("AF:reauthenticate", "User password doesn't correct.")
                     Toast.makeText(activity!!, getString(R.string.msg_error_session_access), Toast.LENGTH_SHORT).show()
                 }
             }

@@ -18,14 +18,36 @@ class Constants{
             const val INIT_CODE = 0
 
             const val LOGIN_CODE = 10
-            const val LOGIN_CODE_BACK = 13
+            const val LOGIN_CODE_BACK = 11
 
             const val REGISTRY_CODE = 20
             const val REGISTRY_CODE_BACK = 21
 
             const val MAIN_CODE = 30
 
-            const val EDIT_TOPIC_CODE = 50
+            const val EDIT_TOPIC_CODE = 40
+
+            const val MAPS_CODE = 50
+        }
+    }
+
+    class ConstantsStrings{
+        companion object{
+            const val EMPTY = ""
+        }
+    }
+
+    class sharedPreferenceVariables{
+        companion object{
+            const val LATITUDE = "LATITUDE"
+            const val LONGITUDE = "LONGITUDE"
+            const val PRESSED = "PRESSED"
+        }
+    }
+
+    class sharedPreferenceKeys{
+        companion object{
+            const val MAPS_ACTIVITY_KEY = "MAPS_ACTIVITY"
         }
     }
 }

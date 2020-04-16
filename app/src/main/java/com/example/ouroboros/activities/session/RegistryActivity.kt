@@ -150,16 +150,6 @@ class RegistryActivity : AppCompatActivity() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("Registry", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("Registry", "onResume")
-    }
-
     private fun createUserDatabase(userFirebase : FirebaseUser?, username : String){
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("users")
@@ -170,26 +160,6 @@ class RegistryActivity : AppCompatActivity() {
             OUROBOROS_INIT
         )
         myRef.child(userFirebase!!.uid).setValue(new_user)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("Registry", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("Registry", "onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("Registry", "onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("Registry", "onDestroy")
     }
 
     override fun onBackPressed() {

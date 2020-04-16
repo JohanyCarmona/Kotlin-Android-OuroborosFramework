@@ -57,9 +57,9 @@
     <string name="et_real_resource_description">Resource description</string>
     <string name="et_wish_resource_description">Wish Resource description</string>
 
-    <string name="cd_iv_buttom_search_my_topic">Buttom Search My Topic</string>
-    <string name="cd_iv_buttom_get_resource_location">Buttom Get Resource Location</string>
-    <string name="cd_iv_buttom_add_my_topic">Buttom Add My Topic</string>
+    <string name="cd_iv_buttom_search_my_topic">Search My Topic</string>
+    <string name="cd_iv_buttom_get_resource_location">Get Resource Location</string>
+    <string name="cd_iv_buttom_add_my_topic">Add My Topic</string>
     <string name="cd_iv_add_topic_resource">Add Image Resource</string>
     <string name="cd_iv_role_type">Role type</string>
     <string name="error_msg_user_exists">There is no user record corresponding to this identifier. The user may have been deleted.</string>
@@ -70,14 +70,14 @@
     <string name="msg_error_valid_user">The user doesn\'t valid</string>
     <string name="msg_error_valid_location">The location doesn\'t valid</string>
     <string name="msg_error_network">Interrupted connection</string>
-    <string name="msg_topic_created">Topic was created succesfully</string>
-    <string name="msg_topic_edited">Topic was edited succesfully</string>
+    <string name="msg_topic_created">Topic was created successfully</string>
+    <string name="msg_topic_edited">Topic was edited successfully</string>
     <string name="et_resource_publication_date">Publication Date</string>
     <string name="et_resource_publication_date_result">00/00/00 00:00:00</string>
     <string name="button_edit">Edit</string>
     <string name="button_delete">Delete</string>
-    <string name="cd_iv_bt_edit">Edit Buttom</string>
-    <string name="cd_iv_bt_delete">Delete Buttom</string>
+    <string name="cd_iv_bt_edit">Edit</string>
+    <string name="cd_iv_bt_delete">Delete</string>
     <string name="cd_iv_ouroboros_publisher">Ouroboros Publisher</string>
     <string name="tv_ouroboros_publisher"></string>
     <string name="msg_user_edited">The user was edited successfully</string>
@@ -97,8 +97,8 @@
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
     <string name="msg_password_update_succesfully">The password was update successfully</string>
-    <string name="msg_email_update_succesfully">The email was update succesfully</string>
-    <string name="msg_username_update_succesfully">The username was update succesfully</string>
+    <string name="msg_email_update_succesfully">The email was update successfully</string>
+    <string name="msg_username_update_succesfully">The username was update successfully</string>
     <string name="msg_error_session_access">The old password doesn\'t correct</string>
     <string name="msg_password_update_error">The password cannot be update.</string>
     <string name="msg_email_update_error">The email cannot be update</string>
@@ -119,5 +119,12 @@
         <item>Indoor</item>
         <item>Outdoor</item>
     </string-array>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="cd_iv_bt_show_location">Show Location</string>
+    <string name="msg_unknown_resource_location">Unknown Resource Location</string>
+    <string name="msg_wish_resource_location">Wish Resource Location</string>
+    <string name="msg_resource_location">Resource Location</string>
+    <string name="bt_set_location">Set Location</string>
 
 </resources>

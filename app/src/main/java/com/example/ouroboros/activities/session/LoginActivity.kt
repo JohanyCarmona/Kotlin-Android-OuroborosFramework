@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import com.example.ouroboros.activities.MainActivity
 import com.example.ouroboros.R
 import com.example.ouroboros.utils.Constants.ActivityCodes.Companion.LOGIN_CODE_BACK
 import com.example.ouroboros.utils.Constants.ActivityCodes.Companion.MAIN_CODE
@@ -81,36 +80,6 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent()
         setResult(LOGIN_CODE_BACK, intent)
         super.onBackPressed()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("Login", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("Login", "onResume")
-        }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("Login", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("Login", "onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("Login", "onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("Login", "onDestroy")
     }
 
 }

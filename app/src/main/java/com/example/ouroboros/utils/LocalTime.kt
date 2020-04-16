@@ -11,60 +11,64 @@ class LocalTime {
 
     fun isValidLocalTime() : Boolean {
         val myMetaData : FirebaseUserMetadata = FirebaseAuth.getInstance().currentUser!!.metadata!!
-        val lastSignInTimestamp : Long = timezoneToUTC(myMetaData.lastSignInTimestamp)
+        val lastSignInTimestamp : Long = convertDefaultTimeToUTCTime(myMetaData.lastSignInTimestamp)
         val nowTimestamp : Long = currentTimeToUTC()
         return (lastSignInTimestamp < nowTimestamp)
     }
 
-    private fun String.toDate(dateFormat: String = SESSION_DATE_PATTERN, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
-        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
-        parser.timeZone = timeZone
-        return parser.parse(this)
+    //-5 UTCToTime
+    fun convertUTCTimeToDefaultDate(UTCTime : Long): String {
+        val UTCDate = Date(UTCTime)
+        val formatter = SimpleDateFormat(SESSION_DATE_PATTERN, Locale.UK)
+        formatter.timeZone = TimeZone.getDefault()
+        val defaultDate = formatter.format(UTCDate)
+        return defaultDate
+    }
+    //The AuthTimeStamp from Firebase don't use UTC time. It only uses Default time.
+    fun convertDefaultTimeToDefaultDate(defaultTime : Long): String {
+        val date : Date = Date(defaultTime)
+        val formatter = SimpleDateFormat(SESSION_DATE_PATTERN, Locale.getDefault())
+        formatter.timeZone = TimeZone.getDefault()
+        val defaultDate : String = formatter.format(date)
+        return defaultDate
     }
 
-    private fun Date.formatTo(dateFormat: String = SESSION_DATE_PATTERN, timeZone: TimeZone = TimeZone.getDefault()): String {
-        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
-        formatter.timeZone = timeZone
-        return formatter.format(this)
+    private fun convertDefaultTimeToUTCDate(defaultTime : Long): String {
+        val defaultDate : Date = Date(defaultTime)
+        val formatter = SimpleDateFormat(SESSION_DATE_PATTERN, Locale.getDefault())
+        formatter.timeZone = TimeZone.getTimeZone("UTC")
+        val UTCDate : String = formatter.format(defaultDate)
+        return UTCDate
     }
 
-
-    private fun timezoneToUTC(defaultTime : Long): Long {
-        val stDefaultTime : String = convertLongUTCToTime(defaultTime)
-        val dateDefaultTime : Date = stDefaultTime.toDate()
-        return dateDefaultTime.time
+    private fun convertUTCDateToUTCTime(UTCDate : String) : Long {
+        val parser = SimpleDateFormat(SESSION_DATE_PATTERN, Locale.UK)//or Default
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val UTCTime : Long = parser.parse(UTCDate).time
+        return UTCTime
     }
 
-    private fun timezoneToDefault(UTCTime: Long): Long {
-        val dateUTCTime : Date = Date(UTCTime)
-        val stUTCTime : String = dateUTCTime.formatTo()
-        return convertDateToLong(stUTCTime)
+    private fun convertDefaultTimeToUTCTime(defaultTime : Long): Long {
+        val UTCDate : String = convertDefaultTimeToUTCDate(defaultTime)
+        val UTCTime : Long = convertUTCDateToUTCTime(UTCDate)
+        return UTCTime
     }
 
     fun currentTimeToUTC(): Long {
-        val currentTime : Long = currentTimeToLong()
-        return timezoneToUTC(currentTime)
+        val currentTime : Long = System.currentTimeMillis()
+        return convertDefaultTimeToUTCTime(currentTime)
     }
-
-    private fun currentTimeToLong(): Long {
-        return System.currentTimeMillis()
-    }
-
-    fun convertLongUTCToTime(UTCTime : Long): String {
-        val time = timezoneToDefault(UTCTime)
-        return convertLongToTime(time)
-    }
-
-    private fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        val format = SimpleDateFormat(SESSION_DATE_PATTERN)
-        return format.format(date)
-    }
-
-
-    private fun convertDateToLong(date: String): Long {
-        val df = SimpleDateFormat(SESSION_DATE_PATTERN)
-        return df.parse(date).time
-    }
-
 }
+
+
+/*private fun Date.formatTo(dateFormat: String = SESSION_DATE_PATTERN, timeZone: TimeZone = TimeZone.getDefault()): String {
+    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+    formatter.timeZone = timeZone
+    return formatter.format(this)
+}*/
+
+/*private fun String.toDate(dateFormat: String = SESSION_DATE_PATTERN, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+    val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+    parser.timeZone = timeZone
+    return parser.parse(this)
+}*/

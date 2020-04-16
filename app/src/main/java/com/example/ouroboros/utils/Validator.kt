@@ -1,6 +1,7 @@
 package com.example.ouroboros.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.util.Log
@@ -16,11 +17,11 @@ class Validator{
     }
 
     fun isLocationValid(latitude : String?,longitude : String?): Boolean {
-        val latitude_expression = "^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$"
+        val latitude_expression = "^(\\+|-)?(?:90(?:(?:\\.0{1,})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,})?))$"
         val latitude_pattern: Pattern = Pattern.compile(latitude_expression, Pattern.CASE_INSENSITIVE)
         val latitude_matcher : Matcher = latitude_pattern.matcher(latitude)
         if (latitude_matcher.matches()){
-            val longitude_expression = "^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$"
+            val longitude_expression = "^(\\+|-)?(?:180(?:(?:\\.0{1,})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,})?))$"
             val longitude_pattern: Pattern = Pattern.compile(longitude_expression, Pattern.CASE_INSENSITIVE)
             val longitude_matcher : Matcher = longitude_pattern.matcher(longitude)
             return longitude_matcher.matches()
@@ -30,7 +31,7 @@ class Validator{
     }
 
     fun isNetworkOn (context : Context?) : Boolean {
-        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager //context
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isNetworkOn: Boolean = activeNetwork?.isConnectedOrConnecting == true
         return isNetworkOn
@@ -68,19 +69,9 @@ class Validator{
     }
 }, REAUTHENTICATE_DELAY)*/
 
-    /*//(0)Preferences Read Start (OnResume()
-val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-val defaultValue = DONT_LOGGED_USER_CODE
-val saveID = sharedPref.getInt("saveID", defaultValue)
-Log.d("saveID: Read", saveID.toString())
-if (saveID >= 0){
-    codeRequest = LOGIN_CODE
-    codeResult = LOGIN_CODE_OK
-    ManagerSessions.session(saveID)
-}
-//Preferences Read End*/
+/*//PREFERENCES INTO AN ACTIVITY
 
-    /*//Preferences Write Start (OnPause())
+//Preferences Write Start (OnPause())
 var saveID : Int = ManagerSessions.session.ID
 if (saveID < 0){
     saveID = DONT_LOGGED_USER_CODE
@@ -91,4 +82,18 @@ with (sharedPref.edit()) {
     commit()
 }
 Log.d("saveID: Write", saveID.toString())
-//Preferences Write End*/
+//Preferences Write End
+
+//(0)Preferences Read Start (OnResume()
+val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+val defaultValue = DONT_LOGGED_USER_CODE
+val saveID = sharedPref.getInt("saveID", defaultValue)
+Log.d("saveID: Read", saveID.toString())
+if (saveID >= 0){
+    codeRequest = LOGIN_CODE
+    codeResult = LOGIN_CODE_OK
+    ManagerSessions.session(saveID)
+}
+//Preferences Read End
+
+ */

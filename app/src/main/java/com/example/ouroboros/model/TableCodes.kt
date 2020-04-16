@@ -20,6 +20,7 @@ class TableCodes {
 
     class RoleTypeCodes {
         companion object {
+            const val UNKNOWN_ROLE = -1
             const val HELPER = 0
             const val APPLICANT = 1
         }
@@ -85,8 +86,18 @@ class TableCodes {
             const val USER_TABLE_CODE = "users"
             const val COUPLING_TABLE_CODE = "couplings"
             const val INTERACTION_TABLE_CODE = "interactions"
-            const val TOPIC_SERIALIZABLE_CODE = "topic_serializable"
         }
     }
+
+    class IntentCodes {
+        companion object {
+            const val MAP_REQUEST_CODE = "map_request_code"
+            const val ROLE_TYPE_REQUEST_CODE = "role_type_request_code"
+            const val TOPIC_SERIALIZABLE_CODE = "topic_serializable"
+            const val LOCATION_SERIALIZABLE_CODE = "location_serializable"
+        }
+    }
+
+
 
 }

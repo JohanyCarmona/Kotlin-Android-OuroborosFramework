@@ -33,17 +33,22 @@ android {
 }
 
 ext {
-    roomVersion = '2.2.4'
+    roomVersion = '2.2.5'
 }
+
+/*ext {
+    roomVersion = 2.2.4'
+}*/
 
 dependencies {
     //Room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     kapt "androidx.room:room-compiler:$roomVersion"
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    //debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     //Firebase
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.0' //'19.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     //Android
     implementation fileTree(dir: 'libs', include: ['*.jar'])

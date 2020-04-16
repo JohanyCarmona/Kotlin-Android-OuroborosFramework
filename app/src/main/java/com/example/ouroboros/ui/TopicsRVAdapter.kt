@@ -16,9 +16,9 @@ import com.example.ouroboros.model.TableCodes.ColorRoleCodes.Companion.ROLE_COLO
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.APPLICANT
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.HELPER
 import com.example.ouroboros.model.TableCodes.RoomCodes.Companion.ROOM_ALPHA
-import com.example.ouroboros.model.TableCodes.TableCodes.Companion.TOPIC_SERIALIZABLE_CODE
 import com.example.ouroboros.model.firebase.topics.Topic
 import com.example.ouroboros.intent.TopicSerializable
+import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.TOPIC_SERIALIZABLE_CODE
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.item_topic.view.*
 
@@ -98,7 +98,6 @@ class TopicsRVAdapter(
             }
             itemView.setOnClickListener{
                 val user = FirebaseAuth.getInstance().currentUser!!
-                Log.d("TopicDetail:user",user.toString())
                 if (topic.idUser.equals(user.uid)){
                     val intent = Intent(context, MyTopicDetailActivity::class.java)
                     val topic_serializable =
