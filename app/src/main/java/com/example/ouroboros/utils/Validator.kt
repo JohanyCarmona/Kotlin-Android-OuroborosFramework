@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.util.Log
+import com.example.ouroboros.model.TableCodes
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -41,12 +42,12 @@ class Validator{
         try {
             val p = java.lang.Runtime.getRuntime().exec("ping -c 1 -w 1 " + url)
             val value = p.waitFor()
-            Log.d("Validator:value",value.toString())
+            Log.d("TAG:Validator:value",value.toString())
             return value == 0
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d("Validator:Exception",e.toString())
+            Log.d("TAG:Validator:Exception",e.toString())
         }
         return false
     }
@@ -59,6 +60,21 @@ class Validator{
             return isInternetConnected
         }*/
         return isNetworkConnected
+    }
+
+
+    fun invert(anotherRole : Int) : Int {
+        return when(anotherRole){
+            TableCodes.RoleTypeCodes.HELPER -> {
+                TableCodes.RoleTypeCodes.APPLICANT
+            }
+            TableCodes.RoleTypeCodes.APPLICANT -> {
+                TableCodes.RoleTypeCodes.HELPER
+            }
+            else -> {
+                TableCodes.RoleTypeCodes.UNKNOWN_ROLE
+            }
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.ouroboros.activities.my_topics
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -21,18 +22,26 @@ import com.example.ouroboros.model.room.topics.TopicRoom
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.NEGATIVE_COLOR
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.NEUTRAL_COLOR
 import com.example.ouroboros.model.TableCodes.ColorOuroborosCodes.Companion.POSITIVE_COLOR
+import com.example.ouroboros.model.TableCodes.CouplingStateCodes.Companion.DISABLE
+import com.example.ouroboros.model.TableCodes.CouplingStateCodes.Companion.ENABLE
+import com.example.ouroboros.model.TableCodes.CouplingStateCodes.Companion.WAITING
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.LOCATION_SERIALIZABLE_CODE
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.MAP_REQUEST_CODE
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.ROLE_TYPE_REQUEST_CODE
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.TOPIC_SERIALIZABLE_CODE
+import com.example.ouroboros.model.TableCodes.PublicationTypeCodes.Companion.POST
+import com.example.ouroboros.model.TableCodes.PublicationTypeCodes.Companion.REQUEST
 import com.example.ouroboros.model.TableCodes.PublicationTypeStrings.Companion.PUBLICATION_STRING
 import com.example.ouroboros.model.TableCodes.ResourceCategoryStrings.Companion.CATEGORY_STRING
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.APPLICANT
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.HELPER
 import com.example.ouroboros.model.TableCodes.RoleTypeStrings.Companion.ROLE_STRING
 import com.example.ouroboros.model.TableCodes.RoomCodes.Companion.ROOM_ALPHA
+import com.example.ouroboros.model.TableCodes.TableCodes.Companion.COUPLING_TABLE_CODE
 import com.example.ouroboros.model.TableCodes.TableCodes.Companion.TOPIC_TABLE_CODE
 import com.example.ouroboros.model.TableCodes.TableCodes.Companion.USER_TABLE_CODE
+import com.example.ouroboros.model.firebase.couplings.Coupling
+import com.example.ouroboros.model.firebase.couplings.CouplingsTable
 import com.example.ouroboros.model.firebase.topics.Topic
 import com.example.ouroboros.model.firebase.topics.TopicsTable
 import com.example.ouroboros.model.firebase.users.User
@@ -47,12 +56,18 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_my_topic_detail.*
 
 class MyTopicDetailActivity : AppCompatActivity() {
-    lateinit var allMyRoomTopics: List<TopicRoom>
-    lateinit var topic : Topic
+    lateinit private var allMyRoomTopics: List<TopicRoom>
+    lateinit private var topic : Topic
+    val allMyWaitingCouplings : MutableList<Coupling> = mutableListOf()
+    private var enableCoupled : Boolean = false
+    private var waitingCoupled : Boolean = false
+    private var coupled : Boolean = false
+    val allCouplings : MutableList<Coupling> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_topic_detail)
+        supportActionBar?.hide()
 
         val topic_serializable: TopicSerializable = intent?.getSerializableExtra(TOPIC_SERIALIZABLE_CODE) as TopicSerializable
         topic = Topic(
@@ -74,13 +89,60 @@ class MyTopicDetailActivity : AppCompatActivity() {
             setMyTopicDetailTransparency()
         }
 
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(COUPLING_TABLE_CODE)
+
+        // Read from the database
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                enableCoupled = false
+                waitingCoupled = false
+                for (snapshot in dataSnapshot.children) {
+                    val coupling = snapshot.getValue(Coupling::class.java)!!
+                    val saved : Boolean = when(topic.role_type){
+                        APPLICANT -> {
+                            coupling.idApplicantTopic == topic.idTopic
+                        }
+                        HELPER -> {
+                            coupling.idHelperTopic == topic.idTopic
+                        }
+                        else -> {
+                            false
+                        }
+                    }
+                    if (saved){
+                        when (coupling.coupledState) {
+                            ENABLE -> {
+                                enableCoupled = true
+                            }
+                            WAITING -> {
+                                allMyWaitingCouplings.add(coupling)
+                                waitingCoupled = true
+                            }
+                        }
+                        coupled = enableCoupled || waitingCoupled
+                        if (enableCoupled && waitingCoupled) break
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("MTDA:587:error", "Failed to read value: ", error.toException())
+            }
+        })
+
         iv_bt_edit?.setOnClickListener{
                 if (!topic.enable){
                     goToActivity(EDIT_TOPIC_CODE)
                 }else{
                     val validator : Validator = Validator()
                     if (validator.isConnected(this)) {
-                        goToActivity(EDIT_TOPIC_CODE)
+                        if (!enableCoupled){
+                            goToActivity(EDIT_TOPIC_CODE)
+                        }else {
+                            Toast.makeText( this, getString(R.string.msg_error_already_coupled_topic), Toast.LENGTH_SHORT).show()
+                        }
                     }else {
                         Toast.makeText( this, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
                     }
@@ -90,51 +152,174 @@ class MyTopicDetailActivity : AppCompatActivity() {
 
 
         iv_bt_delete?.setOnClickListener{
-            val context : Context? = this
-            //Open window that contains a delete warning
-            val alertDialog: AlertDialog? = this.let{//activity?.let{
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    setMessage(getString(R.string.msg_delete_question))
-                    setPositiveButton(
-                        getString(R.string.msg_delete_question_positive)
-                    ) { dialog, id ->
-                        if (!topic.enable){
-                            //Delete Room
-                            val tableTopics : TopicsTable =
-                                TopicsTable()
-                            tableTopics.deleteRoomTopic(topic)
-                            finish()
-                        }else{
-                            val validator : Validator = Validator()
-                            if (validator.isConnected(context)) {
-                                //Delete Firebase
+            if (!enableCoupled) {
+                val context : Context? = this
+                //Open window that contains a delete warning
+                val alertDialog: AlertDialog? = this.let{//activity?.let{
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setMessage(getString(R.string.msg_delete_question))
+                        setPositiveButton(
+                            getString(R.string.msg_delete_question_positive)
+                        ) { dialog, id ->
+                            if (!topic.enable){
+                                //Delete Room
                                 val tableTopics : TopicsTable =
                                     TopicsTable()
-                                tableTopics.deleteTopic(topic.idTopic)
+                                tableTopics.deleteRoomTopic(topic)
                                 finish()
+                            }else{
+                                val validator : Validator = Validator()
+                                if (validator.isConnected(context)) {
+                                    if (waitingCoupled) {
+                                        disableCouplings()
+                                    }
+                                    //Delete Firebase
+                                    val tableTopics : TopicsTable =
+                                        TopicsTable()
+                                    tableTopics.deleteTopic(topic.idTopic)
+                                    finish()
 
-                            }else {
-                                Toast.makeText( context, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
+                                }else {
+                                    Toast.makeText( context, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
+                        setNegativeButton(
+                            getString(R.string.msg_delete_question_negative)
+                        ) {dialog, id ->
+                        }
                     }
-                    setNegativeButton(
-                        getString(R.string.msg_delete_question_negative)
-                    ) {dialog, id ->
-                    }
+                    builder.create()
                 }
-                builder.create()
+                alertDialog?.show()
+            } else {
+                Toast.makeText( this, getString(R.string.msg_error_cannot_delete_coupled_topic), Toast.LENGTH_SHORT).show()
             }
-            alertDialog?.show()
+
         }
 
         iv_bt_show_location?.setOnClickListener {
             showLocation(topic.latitude,topic.longitude)
         }
 
-        iv_role_type?.setOnClickListener {
+        iv_coupled_request_topic?.setOnClickListener {
+            if (topic.enable){
+                val validator : Validator = Validator()
+                if (validator.isConnected(this)){
+                    if (topic.publication_type < POST){
+                        val intent = Intent(this, MyRequestTopicsActivity::class.java)
+                        val topic_serializable = TopicSerializable(topic)
+                        intent.putExtra(TOPIC_SERIALIZABLE_CODE, topic_serializable).addFlags(FLAG_ACTIVITY_NEW_TASK)
+                        this.startActivity(intent)
+                    }else if (topic.publication_type == POST){
+                        loadMyCouplings(this)
+                    }else if (topic.publication_type == REQUEST){
+                        //(x12)
+                        loadMyRequestCouplings(this)
+                    }
+                }else {
+                    Toast.makeText(this, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
+    private fun loadMyRequestCouplings(context : Context){
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(COUPLING_TABLE_CODE)
+
+        // Read from the database
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                allCouplings.clear()
+                var allIsDisabled : Boolean = true
+                for (snapshot in dataSnapshot.children) {
+                    val coupling = snapshot.getValue(Coupling::class.java)!!
+                    when(topic.role_type){
+                        HELPER -> {
+                            if (coupling.idHelperTopic == topic.idTopic){
+                                if(coupling.coupledState != DISABLE){
+                                    allIsDisabled = false
+                                }
+                            }
+                        }
+                        APPLICANT -> {
+                            if (coupling.idApplicantTopic == topic.idTopic){
+                                if(coupling.coupledState != DISABLE){
+                                    allIsDisabled = false
+                                }
+                            }
+                        }
+                    }
+                    if (allIsDisabled) break
+
+                }
+                if (!allIsDisabled){
+                    val intent = Intent(context, MyRequestTopicActivity::class.java)
+                    val topic_serializable = TopicSerializable(topic)
+                    intent.putExtra(TOPIC_SERIALIZABLE_CODE, topic_serializable).addFlags(FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }else {
+                    Toast.makeText(context, getString(R.string.msg_error_requests_denied_already), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("TAG:MRTA:581:error", "Failed to read value: ", error.toException())
+            }
+        })
+    }
+
+    private fun loadMyCouplings(context : Context){
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(COUPLING_TABLE_CODE)
+
+        // Read from the database
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                allCouplings.clear()
+                var coupled : Boolean = false
+                for (snapshot in dataSnapshot.children) {
+                    val coupling = snapshot.getValue(Coupling::class.java)!!
+                    when(topic.role_type){
+                        HELPER -> {
+                            if (coupling.idHelperTopic == topic.idTopic){
+                                if(coupling.coupledState == DISABLE){
+                                    coupled = true
+                                }
+                            }
+                        }
+                        APPLICANT -> {
+                            if (coupling.idApplicantTopic == topic.idTopic){
+                                if(coupling.coupledState == DISABLE){
+                                    coupled = true
+                                }
+                            }
+                        }
+                    }
+                    if (coupled) break
+
+                }
+                if (coupled){
+                    Toast.makeText(context, getString(R.string.msg_error_requests_denied_already), Toast.LENGTH_SHORT).show()
+                }else {
+                    Toast.makeText(context, getString(R.string.msg_error_not_found_requests), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("TAG:MRTA:581:error", "Failed to read value: ", error.toException())
+            }
+        })
+    }
+
+    private fun disableCouplings(){
+        for (myWaitingCoupling in allMyWaitingCouplings) {
+            val tableCouplings : CouplingsTable = CouplingsTable()
+            tableCouplings.updateCoupledState(myWaitingCoupling.idCoupling, DISABLE)
         }
     }
 
@@ -151,7 +336,7 @@ class MyTopicDetailActivity : AppCompatActivity() {
 
     private fun setMyTopicDetailTransparency(alpha : Float = ROOM_ALPHA){
         iv_ouroboros_publisher.alpha = alpha
-        iv_role_type.alpha = alpha
+        iv_coupled_request_topic.alpha = alpha
         iv_show_topic_resource.alpha = alpha
         tv_role_type.alpha = alpha
         tv_publication_type_result.alpha = alpha
@@ -170,10 +355,10 @@ class MyTopicDetailActivity : AppCompatActivity() {
 
         when (topic.role_type){
             HELPER -> {
-                iv_role_type.setImageResource(R.mipmap.ic_helper_roletype)
+                iv_coupled_request_topic.setImageResource(R.mipmap.ic_helper_roletype)
             }
             APPLICANT -> {
-                iv_role_type.setImageResource(R.mipmap.ic_applicant_roletype)
+                iv_coupled_request_topic.setImageResource(R.mipmap.ic_applicant_roletype)
             }
         }
         tv_role_type.setTextColor(Color.parseColor(TableCodes.ColorRoleCodes.ROLE_COLORS[topic.role_type]))

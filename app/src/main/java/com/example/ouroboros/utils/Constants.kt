@@ -34,6 +34,7 @@ class Constants{
     class ConstantsStrings{
         companion object{
             const val EMPTY = ""
+            const val SPACE = " "
         }
     }
 
@@ -42,12 +43,17 @@ class Constants{
             const val LATITUDE = "LATITUDE"
             const val LONGITUDE = "LONGITUDE"
             const val PRESSED = "PRESSED"
+
+            const val MY_ID_TOPIC = "MY_ID_TOPIC"
+            const val SAVED = "SAVED"
         }
     }
 
     class sharedPreferenceKeys{
         companion object{
             const val MAPS_ACTIVITY_KEY = "MAPS_ACTIVITY"
+
+            const val REQUEST_TOPIC_ACTIVITY_KEY = "REQUEST_TOPIC_ACTIVITY"
         }
     }
 }

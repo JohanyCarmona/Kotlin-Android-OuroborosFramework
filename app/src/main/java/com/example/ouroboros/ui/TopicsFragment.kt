@@ -150,7 +150,7 @@ class TopicsFragment : Fragment() {
                 for (snapshot in dataSnapshot.children) {
                     val topic = snapshot.getValue(Topic::class.java)!!
                     if (topic.enable){
-                            allTopics.add(topic)
+                        allTopics.add(topic)
                     }
                 }
                 topicsRVAdapter.notifyDataSetChanged()

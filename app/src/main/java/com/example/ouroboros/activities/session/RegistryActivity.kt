@@ -29,6 +29,7 @@ class RegistryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registry)
+        supportActionBar?.hide()
 
         et_registry_username.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
@@ -109,7 +110,7 @@ class RegistryActivity : AppCompatActivity() {
                                                         ), Toast.LENGTH_SHORT).show()
                                                     }
                                                     else -> {
-                                                        Log.d("Registry:task.exception",task.exception!!.message)
+                                                        Log.d("TAG:RA:task.exception",task.exception!!.message)
                                                     }
                                                 }
                                             }

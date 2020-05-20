@@ -24,6 +24,7 @@
     <string name="msg_error_email_exists">The email already exists</string>
     <string name="msg_user_created">User successfully created</string>
     <string name="msg_user_started">User successfully started</string>
+    <string name="msg_error_already_coupled_topic">You cannot edit a coupled topic</string>
     <string name="logout">Log out</string>
 
     <string name="title_account">Account</string>
@@ -62,6 +63,7 @@
     <string name="cd_iv_buttom_add_my_topic">Add My Topic</string>
     <string name="cd_iv_add_topic_resource">Add Image Resource</string>
     <string name="cd_iv_role_type">Role type</string>
+
     <string name="error_msg_user_exists">There is no user record corresponding to this identifier. The user may have been deleted.</string>
     <string name="error_msg_network">A network error (such as timeout, interrupted connection or unreachable host) has occurred.</string>
     <string name="error_msg_credentials_access">The password is invalid or the user does not have a password.</string>
@@ -70,6 +72,9 @@
     <string name="msg_error_valid_user">The user doesn\'t valid</string>
     <string name="msg_error_valid_location">The location doesn\'t valid</string>
     <string name="msg_error_network">Interrupted connection</string>
+    <string name="msg_error_invalid_time">Invalid Local Time</string>
+    <string name="msg_error_already_coupled">You have already coupled this topic</string>
+
     <string name="msg_topic_created">Topic was created successfully</string>
     <string name="msg_topic_edited">Topic was edited successfully</string>
     <string name="et_resource_publication_date">Publication Date</string>
@@ -79,7 +84,7 @@
     <string name="cd_iv_bt_edit">Edit</string>
     <string name="cd_iv_bt_delete">Delete</string>
     <string name="cd_iv_ouroboros_publisher">Ouroboros Publisher</string>
-    <string name="tv_ouroboros_publisher"></string>
+    <string name="tv_ouroboros_publisher">0.0</string>
     <string name="msg_user_edited">The user was edited successfully</string>
     <string name="msg_delete_question">Do you want to delete this topic?</string>
     <string name="msg_delete_question_positive">Confirm</string>
@@ -126,5 +131,42 @@
     <string name="msg_wish_resource_location">Wish Resource Location</string>
     <string name="msg_resource_location">Resource Location</string>
     <string name="bt_set_location">Set Location</string>
+    <string name="tv_role_type_topic_result">Topic Role Type Description</string>
+
+
+    <string name="dialog_use_old_topics">Do you want to use any of your old topics?</string>
+    <string name="dg_bt_accept">Accept</string>
+    <string name="dg_bt_cancel">Cancel</string>
+    <string name="tv_use_old_topics">Select any of your old topics to request</string>
+    <string name="tv_select_request_topics">Select any of your received requests to coupling</string>
+    <string name="tv_select_request_topic">Select your sent request to coupling</string>
+    <string name="tv_role_dispatcher_label">Role Dispatcher</string>
+    <string name="ouroboros_default_offering">0.00</string>
+    <string name="ouroboros_offering">1.00</string>
+    <string name="button_coupling">Couple</string>
+    <string name="ouroboros_offering_label">Ouroboros Offering</string>
+    <string name="ouroboros_load_label">Ouroboros Load</string>
+
+
+    <string name="ouroboros">Ouroboros</string>
+    <string name="helper_coupling_warning">If the Applicant accepts this request, then you will lost this resource and gain </string>
+    <string name="helper_my_coupling_warning">If you accepts this request, then you will lost this resource and gain </string>
+    <string name="applicant_coupling_warning_part_0">If the Helper accepts this request, then you will lost </string>
+    <string name="applicant_my_coupling_warning_part_0">If you accepts this request, then you will lost </string>
+    <string name="applicant_coupling_warning_part_1"> and gain this resource.</string>
+    <string name="invalid_role_type_coupling_warning">Invalid Role Type</string>
+    <string name="msg_error_cannot_delete_coupled_topic">You cannot delete a coupled topic</string>
+    <string name="cd_iv_select_request_topic">Select this request topic</string>
+    <string name="APPLICANT">APPLICANT</string>
+    <string name="tv_ouroboros_label">Ouroboros Coin</string>
+    <string name="tv_coupled_date_label">Coupled Date</string>
+    <string name="tv_coupled_date">00:00:00 00/00/00</string>
+    <string name="tv_empty_requests">Empty Requests</string>
+    <string name="tv_empty_request">Empty My Request</string>
+    <string name="empty_requests_warning">Do you want to deny all requests from this topic?</string>
+    <string name="msg_error_requests_denied_already">There aren\'t requests to this topic and all your requests from this topic was deny.</string>
+    <string name="msg_error_not_found_requests">There aren\'t requests to this topic.</string>
+    <string name="msg_error_deleting_coupling_enable">You cannot delete any coupled topic</string>
+
 
 </resources>

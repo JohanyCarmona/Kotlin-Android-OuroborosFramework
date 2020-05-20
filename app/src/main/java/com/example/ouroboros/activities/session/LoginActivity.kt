@@ -19,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        supportActionBar?.hide()
 
         val tv_registry = findViewById<TextView>(R.id.tv_registry)
         val bt_login = findViewById<Button>(R.id.bt_login)

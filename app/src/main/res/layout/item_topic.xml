@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_role_type"
+                android:id="@+id/iv_select_request_topic"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:contentDescription="@string/cd_iv_role_type"
@@ -73,7 +73,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_role_type" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_select_request_topic" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

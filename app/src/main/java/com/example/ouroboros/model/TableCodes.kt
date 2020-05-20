@@ -4,6 +4,7 @@ class TableCodes {
 
     class PublicationTypeCodes {
         companion object {
+            const val POST_REQUESTED = -1
             const val POST = 0
             const val REQUEST = 1
         }
@@ -26,11 +27,41 @@ class TableCodes {
         }
     }
 
+
+    class CouplingStateCodes {
+        companion object {
+            const val ENABLE = 0
+            const val DISABLE = 1
+            const val WAITING = 2
+        }
+    }
+
     class RoleTypeStrings {
         companion object {
             val ROLE_STRING : List<String>  = listOf(
                 "HELPER",
-                "APPLICANT"
+                "APPLICANT",
+                "UNKNOWN_ROLE"
+            )
+        }
+    }
+
+    class OuroborosTypeStrings {
+        companion object {
+            val OUROBOROS_STRING : List<String>  = listOf(
+                "Ouroboros Offering",
+                "Ouroboros Load",
+                "Ouroboros"
+            )
+        }
+    }
+
+    class DispatcherRoleTypeStrings {
+        companion object {
+            val DISPATCHER_ROLE_STRING : List<String>  = listOf(
+                "HELPER (You)",
+                "APPLICANT (You)",
+                "UNKNOWN_ROLE (You)"
             )
         }
     }
@@ -94,7 +125,9 @@ class TableCodes {
             const val MAP_REQUEST_CODE = "map_request_code"
             const val ROLE_TYPE_REQUEST_CODE = "role_type_request_code"
             const val TOPIC_SERIALIZABLE_CODE = "topic_serializable"
+            const val COUPLING_SERIALIZABLE_CODE = "coupling_serializable"
             const val LOCATION_SERIALIZABLE_CODE = "location_serializable"
+            const val MY_ID_TOPIC_CODE = "my_id_topic_code"
         }
     }
 

@@ -33,9 +33,22 @@
         <activity android:name=".activities.my_topics.MyTopicDetailActivity" />
         <activity android:name=".activities.topics.TopicDetailActivity" />
         <activity android:name=".activities.my_topics.EditTopicActivity" />
+        <activity android:name=".activities.my_topics.AddCouplingActivity" />
+        <activity android:name=".activities.my_topics.MyPostTopicsActivity" />
+        <activity android:name=".activities.my_topics.RequestTopicActivity" />
+        <activity android:name=".activities.my_topics.MyRequestTopicsActivity" />
+        <activity android:name=".activities.my_topics.MyRequestTopicActivity" />
+        <activity android:name=".activities.my_topics.CoupledTopicDetailActivity" />
+        <activity android:name=".activities.topics.CouplingTopicDetailActivity" />
         <activity
             android:name=".activities.account.UpdatePasswordDialog"
             android:theme="@android:style/Theme.Holo.Dialog"></activity>
     </application>
 
 </manifest>
+
+
+<!--Pegar justo al lado de MainActivity:
+
+            android:theme="@style/AppTheme.NoActionBar"
+-->

@@ -43,6 +43,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         root =  inflater.inflate(R.layout.fragment_account, container, false)
+
         root.bt_logout.setOnClickListener {
             val auth: FirebaseAuth = FirebaseAuth.getInstance()
             auth.signOut()

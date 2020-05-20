@@ -38,6 +38,38 @@ class TopicsTable {
         myRef.child(idTopic).setValue(topic)
     }
 
+    fun create_(idUser : String,
+               role_type : Int,
+               publication_type : Int,
+               title : String,
+               resource_category : Int,
+               image : String,
+               description : String,
+               publication_date : Long,
+               latitude : Double,
+               longitude : Double,
+               enable : Boolean) : String {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(TOPIC_TABLE_CODE)
+        val idTopic : String? = myRef.push().key
+        val topic = Topic(
+            idTopic!!,
+            idUser,
+            role_type,
+            publication_type,
+            title,
+            resource_category,
+            image,
+            description,
+            publication_date,
+            latitude,
+            longitude,
+            enable
+        )
+        myRef.child(idTopic).setValue(topic)
+        return idTopic
+    }
+
     fun update(idTopic : String,
                idUser : String,
                role_type : Int,
@@ -64,6 +96,16 @@ class TopicsTable {
         childUpdate["latitude"] = latitude
         childUpdate["longitude"] = longitude
         childUpdate["enable"] = enable
+        myRef.child(idTopic).updateChildren(childUpdate)
+    }
+
+    fun updatePublicationType(
+        idTopic : String,
+        publication_type : Int){
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(TOPIC_TABLE_CODE)
+        val childUpdate = HashMap<String, Any>()
+        childUpdate["publication_type"] = publication_type
         myRef.child(idTopic).updateChildren(childUpdate)
     }
 

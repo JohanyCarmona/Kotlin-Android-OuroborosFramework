@@ -15,65 +15,90 @@ import com.example.ouroboros.activities.maps.MapConstants.LocationCodes.Companio
 import com.example.ouroboros.activities.maps.MapConstants.MapCodes.Companion.SET_LOCATION_MAP
 import com.example.ouroboros.activities.maps.MapsActivity
 import com.example.ouroboros.intent.LocationSerializable
+import com.example.ouroboros.intent.TopicSerializable
+import com.example.ouroboros.model.TableCodes
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.LOCATION_SERIALIZABLE_CODE
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.MAP_REQUEST_CODE
 import com.example.ouroboros.model.TableCodes.IntentCodes.Companion.ROLE_TYPE_REQUEST_CODE
-import com.example.ouroboros.model.room.SesionRoom
-import com.example.ouroboros.model.room.topics.TopicRoom
-import com.example.ouroboros.model.room.topics.TopicRoomDAO
 import com.example.ouroboros.model.TableCodes.PublicationTypeCodes.Companion.POST
+import com.example.ouroboros.model.TableCodes.PublicationTypeCodes.Companion.REQUEST
 import com.example.ouroboros.model.TableCodes.ResourceCategoryCodes.Companion.INDOOR
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.APPLICANT
 import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.HELPER
+import com.example.ouroboros.model.TableCodes.RoleTypeCodes.Companion.UNKNOWN_ROLE
+import com.example.ouroboros.model.TableCodes.RoleTypeStrings.Companion.ROLE_STRING
+import com.example.ouroboros.model.firebase.topics.Topic
 import com.example.ouroboros.model.firebase.topics.TopicsTable
 import com.example.ouroboros.utils.Constants.ActivityCodes.Companion.MAPS_CODE
 import com.example.ouroboros.utils.Constants.ConstantsStrings.Companion.EMPTY
 import com.example.ouroboros.utils.Constants.sharedPreferenceKeys.Companion.MAPS_ACTIVITY_KEY
+import com.example.ouroboros.utils.Constants.sharedPreferenceKeys.Companion.REQUEST_TOPIC_ACTIVITY_KEY
 import com.example.ouroboros.utils.Constants.sharedPreferenceVariables.Companion.LATITUDE
 import com.example.ouroboros.utils.Constants.sharedPreferenceVariables.Companion.LONGITUDE
+import com.example.ouroboros.utils.Constants.sharedPreferenceVariables.Companion.MY_ID_TOPIC
 import com.example.ouroboros.utils.Constants.sharedPreferenceVariables.Companion.PRESSED
+import com.example.ouroboros.utils.Constants.sharedPreferenceVariables.Companion.SAVED
 import com.example.ouroboros.utils.LocalTime
 import com.example.ouroboros.utils.Validator
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_add_topic.*
-import java.sql.Types.NULL
 
-class AddTopicActivity : AppCompatActivity() {
-    private var roleType : Int = HELPER
+class RequestTopicActivity : AppCompatActivity() {
+    private var roleType : Int = UNKNOWN_ROLE
+    lateinit var topic : Topic
+    lateinit var myIdTopic : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_topic)
+        setContentView(R.layout.activity_request_topic)
         supportActionBar?.hide()
+
+        val topic_serializable: TopicSerializable = intent?.getSerializableExtra(TableCodes.IntentCodes.TOPIC_SERIALIZABLE_CODE) as TopicSerializable
+        topic = Topic(
+            topic_serializable.idTopic,
+            topic_serializable.idUser,
+            topic_serializable.role_type,
+            topic_serializable.publication_type,
+            topic_serializable.title,
+            topic_serializable.resource_category,
+            topic_serializable.image,
+            topic_serializable.description,
+            topic_serializable.publication_date,
+            topic_serializable.latitude,
+            topic_serializable.longitude,
+            topic_serializable.enable
+        )
+
+        val validator : Validator = Validator()
+        roleType = validator.invert(topic.role_type)
+        val tvRoleTypeResult : TextView = findViewById<TextView>(R.id.tvRoleTypeResult)
+        tvRoleTypeResult.text = if (roleType != UNKNOWN_ROLE) {
+            ROLE_STRING[roleType]
+        }else {
+            ROLE_STRING[ROLE_STRING.size - UNKNOWN_ROLE]
+        }
 
         val et_title : EditText = findViewById<EditText>(R.id.et_title)
         val et_description : EditText = findViewById<EditText>(R.id.et_description)
         val et_resource_location_latitude : EditText = findViewById<EditText>(R.id.et_resource_location_latitude)
         val et_resource_location_longitude : EditText = findViewById<EditText>(R.id.et_resource_location_longitude)
         val tv_location_resource : TextView = findViewById<TextView>(R.id.tv_location_resource)
+        when (roleType){
+            APPLICANT -> {
+                tv_location_resource.text = getString(R.string.tv_wish_resource_location)
+            }
+            HELPER -> {
+                tv_location_resource.text = getString(R.string.tv_real_resource_location)
+            }
+        }
+
         val adapter = ArrayAdapter.createFromResource( this,
             R.array.sp_resource_categories,
             R.layout.support_simple_spinner_dropdown_item
         )
+
         var resourceCategory : Int = INDOOR
-
-
-        var topicRoomDao : TopicRoomDAO = SesionRoom.database.TopicRoomDAO()
-
-        rb_helper.setOnClickListener{
-            roleType = HELPER
-            et_title.setHint(getString(R.string.et_real_resource_title))
-            et_description.setHint(getString(R.string.et_real_resource_description))
-            tv_location_resource.setText(getString(R.string.tv_real_resource_location))
-        }
-
-        rb_applicant.setOnClickListener{
-            roleType = APPLICANT
-            et_title.setHint(getString(R.string.et_wish_resource_title))
-            et_description.setHint(getString(R.string.et_wish_resource_description))
-            tv_location_resource.setText(getString(R.string.tv_wish_resource_location))
-        }
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         sp_resource_category.adapter = adapter
@@ -100,8 +125,9 @@ class AddTopicActivity : AppCompatActivity() {
                         resourceCategory = sp_resource_category.selectedItemPosition
                         val user = FirebaseAuth.getInstance().currentUser
                         if (validator.isConnected(this)) {
-                            val topicsTable : TopicsTable = TopicsTable()
-                            topicsTable.create(
+                            val topicsTable : TopicsTable =
+                                TopicsTable()
+                            myIdTopic = topicsTable.create_(
                                 idUser = user!!.uid,
                                 role_type = roleType,
                                 publication_type = POST,
@@ -114,41 +140,28 @@ class AddTopicActivity : AppCompatActivity() {
                                 longitude = et_resource_location_longitude.text.toString().toDouble(),
                                 enable = true
                             )
+                            writeMyIdTopicPreferences(myIdTopic, true)
+                            finish()
                         }else{
-                            val topicRoom =
-                                TopicRoom(
-                                    NULL,
-                                    idUser = user!!.uid,
-                                    role_type = roleType,
-                                    publication_type = POST,
-                                    title = et_title.text.toString(),
-                                    resource_category = resourceCategory,
-                                    image = "",
-                                    description = et_description.text.toString(),
-                                    publication_date = publicationDate,
-                                    latitude = et_resource_location_latitude.text.toString()
-                                        .toDouble(),
-                                    longitude = et_resource_location_longitude.text.toString()
-                                        .toDouble(),
-                                    enable = false
-                                )
-                            Thread {
-                                topicRoomDao.insertTopic(topicRoom)
-                            }.start()
+                            Toast.makeText( this, getString(R.string.msg_error_network), Toast.LENGTH_SHORT).show()
                         }
-                        finish()
                     }
-
                 }
             }
         }
     }
 
-
+    private fun writeMyIdTopicPreferences(myIdTopic : String, saved : Boolean){
+        val sharedPref : SharedPreferences = getSharedPreferences(REQUEST_TOPIC_ACTIVITY_KEY, 0)
+        val editor : SharedPreferences.Editor = sharedPref.edit()
+        editor.putString(MY_ID_TOPIC, myIdTopic)
+        editor.putBoolean(SAVED, saved)
+        editor.commit()
+    }
 
     private fun setLocation(latitude : String, longitude : String){
         val intent = Intent(this, MapsActivity::class.java)
-        intent.putExtra(ROLE_TYPE_REQUEST_CODE, roleType)
+        intent.putExtra(ROLE_TYPE_REQUEST_CODE, this.roleType)
         intent.putExtra(MAP_REQUEST_CODE, SET_LOCATION_MAP)
         val validator : Validator = Validator()
         lateinit var resourceLocation : LatLng
@@ -157,13 +170,11 @@ class AddTopicActivity : AppCompatActivity() {
         }else{
             LatLng(OUROBOROS_LOCATION_LATITUDE, OUROBOROS_LOCATION_LONGITUDE)
         }
-        Log.d("TAG:ATA:4", ":resourceLocation:$resourceLocation")
+        Log.d("TAG:RTA:435", ":resourceLocation:$resourceLocation")
         val resourceLocationSerializable = LocationSerializable(resourceLocation)
         intent.putExtra(LOCATION_SERIALIZABLE_CODE, resourceLocationSerializable).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivityForResult(intent, MAPS_CODE)
-
     }
-
 
     private fun readLocationPreferences() : HashMap <String, String> {
         val sharedPref : SharedPreferences = getSharedPreferences(MAPS_ACTIVITY_KEY, 0)
@@ -185,9 +196,7 @@ class AddTopicActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         fillLocationEditText(readLocationPreferences())
-
     }
-
 
     private fun resetPressedPreferences(){
         val sharedPref : SharedPreferences = getSharedPreferences(MAPS_ACTIVITY_KEY, 0)

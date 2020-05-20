@@ -252,7 +252,7 @@
 
 
         <ImageView
-            android:id="@+id/iv_role_type"
+            android:id="@+id/iv_coupled_request_topic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
@@ -274,7 +274,7 @@
             android:textSize="8sp"
             android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_role_type" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_coupled_request_topic" />
 
         <ImageView
             android:id="@+id/iv_ouroboros_publisher"

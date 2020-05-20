@@ -31,6 +31,15 @@ class UsersTable {
         myRef.child(idUser).updateChildren(childUpdate)
     }
 
+    fun updateOuroboros(idUser : String,
+               ouroboros : Double){
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("users")
+        val childUpdate = HashMap<String, Any>()
+        childUpdate["ouroboros"] = ouroboros
+        myRef.child(idUser).updateChildren(childUpdate)
+    }
+
     fun delete(idUser : String){
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("users")

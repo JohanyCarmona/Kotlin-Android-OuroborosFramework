@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,13 +71,13 @@ class TopicsRVAdapter(
             when (topic.role_type){
                 HELPER -> {
                     //Añadir apartado para cambiar el ícono del tipo de rol de la publicación.
-                    itemView.iv_role_type.setImageResource(R.mipmap.ic_helper_roletype)
+                    itemView.iv_select_request_topic.setImageResource(R.mipmap.ic_helper_roletype)
                     itemView.tv_role_type.text = itemView.context.getString(R.string.role_type_helper_small)
                     itemView.tv_role_type.setTextColor(Color.parseColor(ROLE_COLORS[HELPER]))
                 }
                 APPLICANT -> {
                     //Añadir apartado para cambiar el ícono del tipo de rol de la publicación.
-                    itemView.iv_role_type.setImageResource(R.mipmap.ic_applicant_roletype)
+                    itemView.iv_select_request_topic.setImageResource(R.mipmap.ic_applicant_roletype)
                     itemView.tv_role_type.text = itemView.context.getString(R.string.role_type_applicant_small)
                     itemView.tv_role_type.setTextColor(Color.parseColor(ROLE_COLORS[APPLICANT]))
                 }
@@ -86,12 +85,12 @@ class TopicsRVAdapter(
             if(!topic.enable){
                 //itemView.tv_title.setTextColor(Color.parseColor(ROOM_IDENTIFIER_COLOR))
                 itemView.iv_resource.alpha = ROOM_ALPHA
-                itemView.iv_role_type.alpha = ROOM_ALPHA
+                itemView.iv_select_request_topic.alpha = ROOM_ALPHA
                 itemView.tv_title.alpha = ROOM_ALPHA
                 itemView.tv_role_type.alpha = ROOM_ALPHA
             }else{
                 itemView.iv_resource.alpha = 1F
-                itemView.iv_role_type.alpha = 1F
+                itemView.iv_select_request_topic.alpha = 1F
                 itemView.tv_title.alpha = 1F
                 itemView.tv_role_type.alpha = 1F
 
@@ -100,15 +99,13 @@ class TopicsRVAdapter(
                 val user = FirebaseAuth.getInstance().currentUser!!
                 if (topic.idUser.equals(user.uid)){
                     val intent = Intent(context, MyTopicDetailActivity::class.java)
-                    val topic_serializable =
-                        TopicSerializable(topic)
+                    val topic_serializable = TopicSerializable(topic)
                     intent.putExtra(TOPIC_SERIALIZABLE_CODE, topic_serializable).addFlags(FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
 
                 }else{
                     val intent = Intent(context, TopicDetailActivity::class.java)
-                    val topic_serializable =
-                        TopicSerializable(topic)
+                    val topic_serializable = TopicSerializable(topic)
                     intent.putExtra(TOPIC_SERIALIZABLE_CODE, topic_serializable).addFlags(FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
                 }

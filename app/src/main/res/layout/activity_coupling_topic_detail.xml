@@ -84,6 +84,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
+        <ImageView
+            android:id="@+id/iv_ouroboros_publisher"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/cd_iv_ouroboros_publisher"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/iconapp" />
+
+        <TextView
+            android:id="@+id/tv_ouroboros_publisher_result"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/tv_ouroboros_publisher"
+            android:textColor="@color/colorNeutralOuroboros"
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ouroboros_publisher" />
+
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="0dp"
@@ -148,7 +173,7 @@
 
 
         <ImageView
-            android:id="@+id/iv_select_request_topic"
+            android:id="@+id/iv_coupled_request_topic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
@@ -158,44 +183,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/iconapp" />
-
-        <TextView
-            android:id="@+id/tv_role_type"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="center|center_horizontal|top|center_vertical"
-            android:text="@string/role_type_helper"
-            android:textColor="@color/colorNeutralOuroboros"
-            android:textSize="8sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_select_request_topic" />
-
-        <ImageView
-            android:id="@+id/iv_ouroboros_publisher"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/cd_iv_ouroboros_publisher"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iconapp" />
-
-        <TextView
-            android:id="@+id/tv_ouroboros_publisher_result"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:text="@string/tv_ouroboros_publisher"
-            android:textColor="@color/colorNeutralOuroboros"
-            android:textSize="12sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_ouroboros_publisher" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

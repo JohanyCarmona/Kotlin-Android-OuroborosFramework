@@ -49,6 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        supportActionBar?.hide()
 
         requestRoleType = intent?.getIntExtra(ROLE_TYPE_REQUEST_CODE,UNKNOWN_ROLE)!!
         requestMap = intent?.getIntExtra(MAP_REQUEST_CODE,UNKNOWN_REQUEST_MAP)!!
@@ -238,7 +239,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     override fun onPause() {
-         writeLocationPreferences(resourceLocation.latitude,resourceLocation.longitude, savePressed)
+         writeLocationPreferences(resourceLocation.latitude, resourceLocation.longitude, savePressed)
         super.onPause()
     }
 

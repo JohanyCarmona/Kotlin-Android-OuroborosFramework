@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".activities.topics.TopicDetailActivity">
+        tools:context=".activities.my_topics.MyTopicDetailActivity">
 
         <ImageView
             android:id="@+id/iv_show_topic_resource"
@@ -29,6 +29,60 @@
             app:srcCompat="@drawable/iconapp" />
 
         <TextView
+            android:id="@+id/tv_publication_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/tv_publication_type"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_publication_type_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:hint="@string/publication_type_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_publication_type" />
+
+        <TextView
+            android:id="@+id/tv_role_type_topic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/tv_role_type_topic"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_publication_type_result" />
+
+        <TextView
+            android:id="@+id/tv_role_type_topic_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:hint="@string/role_type_helper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_role_type_topic" />
+
+        <TextView
             android:id="@+id/tv_category_type_topic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +94,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_role_type_topic_result" />
 
         <TextView
             android:id="@+id/tv_category_type_topic_result"
@@ -115,6 +169,58 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
         <TextView
+            android:id="@+id/tv_location_resource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/tv_real_resource_location"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description_result" />
+
+        <TextView
+            android:id="@+id/tv_resource_location_latitude"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:autofillHints=""
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="@string/et_resource_location_latitude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource" />
+
+        <TextView
+            android:id="@+id/tv_resource_location_longitude"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:autofillHints=""
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="@string/et_resource_location_longitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource" />
+
+        <ImageView
+            android:id="@+id/iv_bt_show_location"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/cd_iv_bt_show_location"
+            android:focusable="true"
+            app:layout_constraintEnd_toStartOf="@+id/tv_resource_location_longitude"
+            app:layout_constraintStart_toEndOf="@+id/tv_resource_location_latitude"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location_resource"
+            app:srcCompat="@mipmap/ic_show_location" />
+
+        <TextView
             android:id="@+id/tv_publication_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,7 +233,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_description_result" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_bt_show_location" />
 
 
         <TextView
@@ -137,40 +243,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:autofillHints=""
             android:gravity="center"
             android:hint="@string/et_resource_publication_date_result"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_publication_date" />
 
-
-        <ImageView
-            android:id="@+id/iv_select_request_topic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/cd_iv_role_type"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iconapp" />
-
-        <TextView
-            android:id="@+id/tv_role_type"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="center|center_horizontal|top|center_vertical"
-            android:text="@string/role_type_helper"
-            android:textColor="@color/colorNeutralOuroboros"
-            android:textSize="8sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_select_request_topic" />
 
         <ImageView
             android:id="@+id/iv_ouroboros_publisher"
